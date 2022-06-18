@@ -1,29 +1,28 @@
 <?php
-	//print_r($_POST);
-    if(empty($_POST["oculto"]) || empty($_POST["txtNombre"]) || empty($_POST["txtEmail"]) || empty($_POST["txtEmpresa"]) || empty($_POST["txtCargo"]) || empty($_POST["txtTelefono"])){
-        header('Location: index.php?mensaje=falta');
-        exit();
-    }
 
-    include_once 'model/conexion.php';
-    $Nombre = $_POST["txtNombre"];
-    $Email = $_POST["txtEmail"];
-    $Empresa = $_POST["txtEmpresa"];
-    $Cargo = $_POST["txtCargo"];
-    $Telefono = $_POST["txtTelefono"];
-    
-    //Formato del asunto
-$header = 'From: ' . $Email . " \r\n";
+//Datos asignados a la inscripción mediante POST
+$nombre = $_POST['nombre'];
+$telefono = $_POST['telefono'];
+$email = $_POST['email'];
+$empresa = $_POST['empresa'];
+$ciudad = $_POST['ciudad'];
+$subject = $_POST['subject'];
+$mensaje = $_POST['mensaje'];
+//Formato del asunto
+$header = 'From: ' . $email . " \r\n";
 $header .= "X-Mailer: PHP/" . phpversion() . " \r\n";
 $header .= "Mime-Version: 1.0 \r\n";
 $header .= "Content-Type: text/plain";
 //Formato del mensaje
-$mensaje = "Este mensaje fue enviado por " . $Nombre . ",\r\n";
-$mensaje .= "Su e-mail es: " . $Email . " \r\n";
-$mensaje .= "De la empresa: " . $Empresa . ",\r\n";
-$mensaje .= "Su cargo es: " . $Cargo . ",\r\n";
-$mensaje .= "Su número de teléfono es: " . $Telefono . ",\r\n";
-$mensaje .= "Enviado el " . date('d/m/Y', time());
+$mensaje = "Este mensaje fue enviado por " . $nombre . ",\r\n";
+$mensaje .= "Su número de teléfono es: " . $telefono . ",\r\n";
+$mensaje .= "Su e-mail es: " . $email . " \r\n";
+$mensaje .= "De la empresa: " . $empresa . ",\r\n";
+$mensaje .= "De la ciudad de: " . $ciudad . ",\r\n";
+$mensaje .= "Su asunto es: " . $subject . ",\r\n";
+$mensaje .= "Mensaje: " . $_POST['mensaje'] . " \r\n";
+$mensaje .= date_default_timezone_set('America/Bogota');
+$mensaje .= "Enviado el " . date('l-d/m/Y g:i:s a', time());
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -46,32 +45,29 @@ try {
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom($Email, utf8_decode($Nombre));
+    $mail->setFrom($email, $nombre);
     $mail->addAddress('mioficina.co@gmail.com', 'Mi Oficina.co');     //Add a recipient
-    $mail->addReplyTo('andres.rodriguez@mioficina.co', 'Información');
+    $mail->addReplyTo('andres.rodriuez@mioficina.co', 'Información de datos de contacto de Mi Oficina.co');
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = utf8_decode('Nuevo mensaje de inscripción al evento');
+    $mail->Subject = utf8_decode($subject);
     $mail->Body    = utf8_decode($header);
     $mail->Body    = utf8_decode($mensaje);
 
-$paraCliente    = $Email;
-$tituloCliente  = "Su inscripción ha sido realizada";
-$mensajeCliente = "Buen día " . $_POST['txtNombre'] . ". Gracias por inscribirse a nuestro evento </strong>Pruebas de continuidad con VMware vSphere y AWS</strong>";
+$paraCliente    = $email;
+$tituloCliente  = "Su mensaje ha sido recibido";
+$mensajeCliente = "Buen día " . $_POST['nombre'] . ". Muchas gracias por contactarnos, prontamente nuestra área comercial se comunicará con usted para atender su solicitud.</strong>";
 
 $cabecerasCliente  = 'MIME-Version: 1.0' . "\r\n";
 $cabecerasCliente .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-$cabecerasCliente .= 'From: Mi Oficina.co<servicios@mioficina.co>';
+$cabecerasCliente .= 'From: Mi Oficina.co<comercial@mioficina.co>';
 $enviadoCliente   = mail($paraCliente, $tituloCliente, $mensajeCliente, $cabecerasCliente);
 
-$sentencia = $bd->prepare("INSERT INTO prueba(Nombre,Email,Empresa,Cargo,Telefono) VALUES (?, ?, ?, ?, ?);");
-$resultado = $sentencia->execute([$Nombre,$Email,$Empresa,$Cargo,$Telefono]);
-    
     $mail->send();
-    header('Location: https://www.mioficina.co/mensaje-de-envio');
+    header('Location: https://www.mioficina.co/contactenos-mensaje-enviado?mensaje=registrado');
 } catch (Exception $e) {
-    header('Location: https://www.mioficina.co/mensaje-de-error');
+    header('Location: https://www.mioficina.co/contactenos-mensaje-error?mensaje=error');
 }
 
 ?>
