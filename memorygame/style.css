@@ -1,6 +1,23 @@
+body{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.container{
+	display: flex;
+	justify-content: center;
+ 	margin: auto;
+  align-items: center;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
   width: 400px;
   height: 300px;
+  cursor: pointer;
+  align-items: center;
+}
+
+h3{
+  text-align: center;
 }
