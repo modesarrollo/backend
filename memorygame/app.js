@@ -79,10 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if(optionOneId == optionTwoId) {
       cards[optionOneId].setAttribute('src', 'images/card-mo.png')
       cards[optionTwoId].setAttribute('src', 'images/card-mo.png')
-      alert('¡Has hecho clic en la misma imagen!')
+      swal('Mi Oficina.co dice','¡Has hecho clic en la misma imagen!','question')
     }
     else if (cardsChosen[0] === cardsChosen[1]) {
-      alert('Encontraste una coincidencia!')
+      swal('Mi Oficina.co dice','Encontraste una coincidencia!','success')
       cards[optionOneId].setAttribute('src', 'images/white.png')
       cards[optionTwoId].setAttribute('src', 'images/white.png')
       cards[optionOneId].removeEventListener('click', flipCard)
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       cards[optionOneId].setAttribute('src', 'images/card-mo.png')
       cards[optionTwoId].setAttribute('src', 'images/card-mo.png')
-      alert('Lo sentimos, intente de nuevo')
+      swal('Mi Oficina.co dice','Lo sentimos, intente de nuevo','error')
     }
     cardsChosen = []
     cardsChosenId = []
