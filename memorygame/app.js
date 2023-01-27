@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
       swal('Mi Oficina.co dice','¡Has hecho clic en la misma imagen!','question')
     }
     else if (cardsChosen[0] === cardsChosen[1]) {
-      swal('Mi Oficina.co dice','Encontraste una coincidencia!','success')
+      swal('Mi Oficina.co dice','Encontró una coincidencia!','success')
       cards[optionOneId].setAttribute('src', 'images/white.png')
       cards[optionTwoId].setAttribute('src', 'images/white.png')
       cards[optionOneId].removeEventListener('click', flipCard)
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosenId = []
     resultDisplay.textContent = cardsWon.length
     if  (cardsWon.length === cardArray.length/2) {
-      resultDisplay.textContent = '¡Felicidades! ¡Has encontrado todas las piezas!'
+      resultDisplay.textContent = '¡Felicidades! ¡Ha encontrado todas las piezas!'
     }
   }
 
